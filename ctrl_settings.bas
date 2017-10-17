@@ -8,6 +8,7 @@ Public obj_settings As Settings
 
 Public Function init()
     Dim str_setting_file As String
+    Dim obj_background_job As BackgroundJob
 
     ' load settings
     Set obj_settings = New Settings
@@ -40,8 +41,19 @@ Public Function init()
     'hndl_log.BOOL_EXTERNAL_DATA_FILE_VISIBILITY = CBool(obj_settings.Item("local:app\\hndl_log.bool_external_data_file_visibility").Value)
     
     ' background job
-    background_job.str_full_path = obj_settings.Item("local:file\\background_job.str_full_path").Value
-    background_job.str_macro = obj_settings.Item("local:app\\background_job.str_macro").Value
+      ' first
+    Set obj_background_job = New BackgroundJob
+    obj_background_job.str_id = "1"
+    obj_background_job.str_full_path = obj_settings.Item("local:file\\background_job.1.str_full_path").Value
+    obj_background_job.str_macro = obj_settings.Item("local:app\\background_job.1.str_macro").Value
+    app.add_job obj_background_job
+    ' second
+    Set obj_background_job = New BackgroundJob
+    obj_background_job.str_id = "2"
+    obj_background_job.str_full_path = obj_settings.Item("local:file\\background_job.2.str_full_path").Value
+    obj_background_job.str_macro = obj_settings.Item("local:app\\background_job.2.str_macro").Value
+    app.add_job obj_background_job
+    
     On Error GoTo 0
     
     On Error GoTo ERR_CLOSE_SETTINGS
